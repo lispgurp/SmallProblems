@@ -88,11 +88,9 @@
    '("I don't know why it wouldn't compile"
 	 "My TA just smiled"))
   (write-repeating-poem t)
-  (format t "Fuck you, Fuck you Blub Nerd Scum.~%")
-  (format t "I am never turning back ~%")
-  (format t "Into the sychophantic Bum I was~%")
-  (dotimes (i 10)
-	(format t "Fuck you, fuck you ~%")))
+  (format t "bart simpson writes")
+  (dotimes (i 100)
+	(format t "I will not code with a Blub mindset ~%")))
  
 
   
