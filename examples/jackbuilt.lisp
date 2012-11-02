@@ -3,37 +3,37 @@
 ;
 ;This is the house that Jack built. (POEM-OPENING-LINE)
 
-;This is the rat                    (VERSE-SUBJECT)
-;That ate the malt ; eating-line    (VERSE-DEPENDENT)
-;That lay in the house that Jack built. (VERSE-CLOSING)
+;This is the rat                    (VERSE-SUBJECT rat)
+;That ate the malt                  (VERSE-REPEITION-CHAIN malt)
+;That lay in the house that Jack built. (VERSE-CLOSING-LINE)
 ;
-;This is the cat,                   (VERSE-SUBJECT)
-;That killed the rat,               VERSE-DEPENDENT
-;That ate the malt                  VERSE-DEPDENCY-CHAIN, where chain = malt
-;That lay in the house that Jack built. VERSE-CLOSING
+;This is the cat,                   (VERSE-SUBJECT cat)
+;That killed the rat,               (VERSE-REPETITION-CHAIN rat malt)
+;That ate the malt                  
+;That lay in the house that Jack built. (VERSE-CLOSING-LINE)
 ;
-;This is the dog,                   VERSE-SUBJECT
-;That worried the cat,              VERSE-DEPENDENT
-;That killed the rat,               VERSE-DEPENDENCY-CHAIN, where chain = rat,malt
+;This is the dog,                   (VERSE-SUBJECT dog)
+;That worried the cat,              (VERSE-REPETITION-CHAIN cat rat malt)
+;That killed the rat,               
 ;That ate the malt
-;That lay in the house that Jack built. VERSE-CLOSING
+;That lay in the house that Jack built. (VERSE-CLOSING-CHAIN)
 ;
-;This is the cow with the crumpled horn, VERSE-SUBJECT
-;That tossed the dog,                    VERSE-DEPENDENT
-;That worried the cat,                   VERSE-DEPENDENCY-CHAIN, where chain = cat,rat,malt 
+;This is the cow with the crumpled horn, (VERSE-SUBJECT cow)
+;That tossed the dog,                    (VERSE-REPETITION-CHAIN dog cat rat malt)
+;That worried the cat,                   
 ;That killed the rat,
 ;That ate the malt
-;That lay in the house that Jack built.  VERSE-CLOSING
+;That lay in the house that Jack built.  (VERSE-CLOSING-LINE)
 ;
-;This is the maiden all forlorn,             VERSE-SUBJECT
-;That milked the cow with the crumpled horn, VERSE-DEPENDENT
-;That tossed the dog,                        VERSE-DEPENDENCY-CHAIN, where chain = dog,cat,rat,malt
+;This is the maiden all forlorn,             (VERSE-SUBJECT maiden)
+;That milked the cow with the crumpled horn, (VERSE-REPITITION-CHAIN cow dog cat rat malt)
+;That tossed the dog,                      
 ;That worried the cat, 
 ;That killed the rat,
 ;That ate the malt
-;That lay in the house that Jack built.  VERSE-CLOSING
+;That lay in the house that Jack built.  (VERSE-CLOSING-LINE)
 ;
-;This is the man all tattered and torn,
+;This is the man all tattered and torn,   
 ;That kissed the maiden all forlorn,
 ;That milked the cow with the crumpled horn,
 ;That tossed the dog,
