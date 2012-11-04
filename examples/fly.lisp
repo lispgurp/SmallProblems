@@ -49,13 +49,17 @@
 ;She died of course.
 
 (setf repetition-chain  '(dog cat bird spider))
-  ;((dog cat)
-  ; (cat bird)
-  ; (bird spider)
-  ; (spider fly)))
 
 '(dog 
-  :as-verse-subject        "There was an old woman who swallowed a ~A ~% What a hog to swallow a ~A"
+  :as-verse-subject        "There was an old woman who swallowed a god ~% What a hog to swallow a dog"
   :as-in-repetition-chain  "She swallowed the ~A to catch the cat")
 
+; Writing a repetative nursery rhyme
 
+;1) Opening Lines (a list of lines to start the poem) 
+;2) Closing Lines (a list of lines to end the peom)
+;3) Repetition (the names of things that will repeat themselves as symbols)
+;4) Verse Definitions
+;       :name (as defined in repetition chain)
+;       :first-lines
+;       :as-in-repetition
