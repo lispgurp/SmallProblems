@@ -48,11 +48,11 @@
 ;There was an old woman who swallowed a horse,  (POEM-ENDING-LINES)
 ;She died of course.
 
-(setf repetition-chain  '(dog cat bird spider))
+;(setf repetition-chain  '(dog cat bird spider))
 
-'(dog 
-  :as-verse-subject        "There was an old woman who swallowed a god ~% What a hog to swallow a dog"
-  :as-in-repetition-chain  "She swallowed the ~A to catch the cat")
+;'(dog 
+;  :as-verse-subject        "There was an old woman who swallowed a god ~% What a hog to swallow a dog"
+;  :as-in-repetition-chain  "She swallowed the ~A to catch the cat")
 
 ; Writing a repetative nursery rhyme
 
@@ -63,3 +63,10 @@
 ;       :name (as defined in repetition chain)
 ;       :first-lines
 ;       :as-in-repetition
+
+
+      
+
+
+
+
