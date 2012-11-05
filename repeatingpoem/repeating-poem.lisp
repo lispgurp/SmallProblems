@@ -1,18 +1,21 @@
-; Writing a repetative nursery rhyme
+; writing a repetative poem
 
-;1) Opening Lines (a list of lines to start the poem) 
-;2) Closing Lines (a list of lines to end the peom)
-;3) Repetition (the names of things that will repeat themselves as symbols)
-;4) Verse Definitions
-;       :name (as defined in repetition chain)
-;       :first-lines
-;       :as-in-repetition
+;1) *opening*  (lines that start the poem)
+;2) *closing*  (lines that end the poem)
+;3) *repetition*
+;     :objects (the names of things that will repeat themselves)
+;     :ending-line (the line that repeatedly punctuates each verse)
+;4) *verses* (defines what is unique to each verse)
+;       :name (as defined in :objects of repetition chain)
+;       :introductory-lines 
+;       :repetition-lines
 
-(defvar *poem-opening-lines*)
-(defvar *poem-closing-lines*)
-(defvar *verse-repetition*)
-(defvar *verse-definitions*)
-(defvar *verse-end-line*)
+
+(defvar *opening*)
+(defvar *closing*)
+(defvar *repetition*)
+(defvar *verses*)
+
 
 
 
