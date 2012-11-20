@@ -1,20 +1,23 @@
 ; writing a repetative poem
 
-;1) *opening*  (lines that start the poem)
-;2) *closing*  (lines that end the poem)
-;3) *repetition*
-;     :objects (the names of things that will repeat themselves)
-;     :ending-line (the line that repeatedly punctuates each verse)
-;4) *verses* (defines what is unique to each verse)
+;1) *poem-opening*  (lines that start the poem)
+;2) *poem-closing*  (lines that end the poem)
+;3) *repetition*   (list of repetative-verses declared in the order that they show up in the poem)
+;    (make-repetative-verse
 ;       :name (as defined in :objects of repetition chain)
-;       :introductory-lines 
+;       :introduction
 ;       :repetition-lines
+;       :verse-ending (supplied a default value in the constructor) 
 
-
-(defvar *opening*)
-(defvar *closing*)
+(defvar *poem-opening-lines*)
+(defvar *poem-closing-lines*)
 (defvar *repetition*)
-(defvar *verses*)
+
+(defstruct repetative-verse
+  (name)
+  (introductory-lines)
+  (repeating-lines)
+  (verse-ending-lines))
 
 
 

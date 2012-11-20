@@ -23,7 +23,7 @@
 ;How absurd to swallow a bird.                   (VERSE-SUBJECT bird)
 ;She swallowed the bird to catch the spider,     (VERSE-REPETITION-CHAIN bird spider)
 ;She swallowed the spider to catch the fly,      
-;I don't know why she swawllowed that fly,        (VERSE-CLOSING-LINES)
+;I don't know why she swallowed that fly,        (VERSE-CLOSING-LINES)
 ;Perhaps she'll die.
  
 ;There was an old woman who swallowed a cat,    
@@ -42,7 +42,7 @@
 ;She swallowed the spider to catch the fly,
 ;I don't know why she swallowed that fly,      
 ;Perhaps she'll die.
-
+ 
 ;<< Your custom sixth verse goes here >>
  
 ;There was an old woman who swallowed a horse,  (POEM-ENDING-LINES)
