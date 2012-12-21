@@ -14,17 +14,17 @@
 ; *** Breadcrumbs to understand this code ***
 ;
 ;  - 1. Look at \examples to see what this code is based on.
-;  - 2. Look at *def.lisp to see how the data structure is setup in the root github directory. 
+;  - 2. Look at \poem-definitions to see how the data structure is setup in the root github directory. 
 ;  - 3. Then look at the code in this file. I started with abstracting the pattern of the repeating verses first
-;       and everything flowed backwards from from there up the stack (e.g. make-nth-repeating-verse).
+;       and everything flowed backwards from from there up the call stack as I was writing it (e.g. make-nth-repeating-verse).
 ;  - P.S. There was a first draft of this code under \firstattempt which made no sense to me when I came back to it
 ;       so I rewrote this program as this file the second time.
 
 ; *** Breadcrumbs to execute the code ***
 ;
-;  - 1. Feed this file into the interpreter
-;  - 2. Feed the desired poem's lisp definition into the interpreter *def.lisp
-;  - 3. Execute the commented out lines at the end of each *def.lisp file in the root github directory
+;  - 1. Feed this file into the interpreter (repeating-poem.lisp)
+;  - 2. Feed the desired poem's lisp definition into the interpreter in \poem-definitions
+;  - 3. Execute the commented out lines at the end of the desired each \poem-definitions file in the root github directory
 
 ;;; Repeating Poem Data Structure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
