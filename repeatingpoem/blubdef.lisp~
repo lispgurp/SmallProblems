@@ -1,0 +1,2 @@
+(defvar blub-poem nil)
+(setf blub-poem (make-instance 'repeating-poem-definition))
