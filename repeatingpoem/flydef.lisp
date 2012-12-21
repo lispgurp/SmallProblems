@@ -2,6 +2,7 @@
 
 (setf fly-poem (make-instance 'repeating-poem-definition))
 
+; TODO: special setup note - last two opening lines equal to verse-punctuator, don't repeat!
 
 (setf (opening-lines fly-poem) 
 	  '("There was an old woman who swallowed a fly"
