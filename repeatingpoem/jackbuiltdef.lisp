@@ -9,7 +9,6 @@
 (setf (repeating-verse-punctuator jackbuilt-poem)
       '("That lay in the house that Jack built"))
 
-;TODO: special processing note - use the repetition as the second line of the introduction
 (setf (repetative-verses jackbuilt-poem)
       (list
        (make-instance 'repetative-verse
@@ -44,3 +43,6 @@
                       :name 'cock
                       :introduction '("This is the cock that crowed in the morn")
                       :repetition '("That walked past the priest all shaven and shorn"))))
+
+;(output-whole-poem t jackbuilt-poem)
+

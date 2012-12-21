@@ -1,7 +1,30 @@
+; *** Overview ****
+;
+; This program is first of a project where I attempt to revivify my interest in programming by
+; proving to myself that the kind of piddily diddily problems that are typical in an interview/entry
+; level programming classes in blubstream programming are trivialized and are actually 
+; fun to do in a Real Language like Lisp.
+;
+;
 ; This API is based on abstracting three types of repetative poems that are used as the first programming problem in
 ; the University of Washington's introductory programming class, cse 142. Traditionally, the student only has to abstract
 ; the repetetition of one poem using Java static methods. I thought that this problem statement is too boring so I changed
-; it to abstract all of the different types of poem that have been used in 142 in the last year (that is why there are 3).
+; it to abstract all of the different types of poems that have been used in 142 in the last year (that is why there are 3).
+
+; *** Breadcrumbs to understand this code ***
+;
+;  - 1. Look at \examples to see what this code is based on.
+;  - 2. Look at *def.lisp to see how the data structure is setup in the root github directory. 
+;  - 3. Then look at the code in this file. I started with abstracting the pattern of the repeating verses first
+;       and everything flowed backwards from from there up the stack (e.g. make-nth-repeating-verse).
+;  - P.S. There was a first draft of this code under \firstattempt which made no sense to me when I came back to it
+;       so I rewrote this program as this file the second time.
+
+; *** Breadcrumbs to execute the code ***
+;
+;  - 1. Feed this file into the interpreter
+;  - 2. Feed the desired poem's lisp definition into the interpreter *def.lisp
+;  - 3. Execute the commented out lines at the end of each *def.lisp file in the root github directory
 
 ;;; Repeating Poem Data Structure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -72,9 +95,3 @@
   "Each verse is a lst of strings"
   (loop for ln in verse
        do (format s "~A~%" ln)))
-
-
-
-
-
-     
