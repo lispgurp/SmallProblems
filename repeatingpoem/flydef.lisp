@@ -4,16 +4,16 @@
 
 ; TODO: special setup note - last two opening lines equal to verse-punctuator, don't repeat!
 
-(setf (opening-lines fly-poem) 
+(setf (opening-verse fly-poem) 
 	  '("There was an old woman who swallowed a fly"
 		"I don't know why she swallowed that fly"
 		"Perhaps she'll die."))
 
-(setf (closing-lines fly-poem)
+(setf (closing-verse fly-poem)
 	  '("There was an old woman who swallowed a horse"
 		"She died of course"))
 
-(setf (verse-punctuator fly-poem)
+(setf (repeating-verse-punctuator fly-poem)
       '("I don't know why she swallowed that fly" "Perhaps she'll die"))
  
 (setf (repetative-verses fly-poem)
@@ -36,5 +36,5 @@
 		:repetition '("She swallowed the dog to catch the cat"))))
 
 
-		
+; (output-whole-poem t fly-poem)		
 
