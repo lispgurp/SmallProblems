@@ -1,3 +1,0 @@
-(defvar jackbuilt-poem nil)
-
-(setf jackbuilt (make-instance 'repeating-poem-definition))
