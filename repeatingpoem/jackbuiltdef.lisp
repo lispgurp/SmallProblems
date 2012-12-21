@@ -1,13 +1,12 @@
 (defvar jackbuilt-poem nil)
-
 (setf jackbuilt-poem (make-instance 'repeating-poem-definition))
 
-(setf (opening-lines jackbuilt-poem)
+(setf (opening-verse jackbuilt-poem)
       '("This is the house that Jack built"))
 
-(setf (closing-lines jackbuilt-poem) nil)
+(setf (closing-verse jackbuilt-poem) nil)
 
-(setf (verse-punctuator jackbuilt-poem)
+(setf (repeating-verse-punctuator jackbuilt-poem)
       '("That lay in the house that Jack built"))
 
 ;TODO: special processing note - use the repetition as the second line of the introduction
@@ -45,6 +44,3 @@
                       :name 'cock
                       :introduction '("This is the cock that crowed in the morn")
                       :repetition '("That walked past the priest all shaven and shorn"))))
-
-
-                      

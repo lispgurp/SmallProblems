@@ -1,9 +1,6 @@
 (defvar fly-poem nil)
 
 (setf fly-poem (make-instance 'repeating-poem-definition))
-
-; TODO: special setup note - last two opening lines equal to verse-punctuator, don't repeat!
-
 (setf (opening-verse fly-poem) 
 	  '("There was an old woman who swallowed a fly"
 		"I don't know why she swallowed that fly"
@@ -35,6 +32,4 @@
 		:introduction '("There was an old woman who swallowed a dog" "What a hog to swallow a dog")
 		:repetition '("She swallowed the dog to catch the cat"))))
 
-
-; (output-whole-poem t fly-poem)		
-
+; (output-whole-poem t fly-poem)

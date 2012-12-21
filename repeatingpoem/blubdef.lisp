@@ -1,8 +1,6 @@
 (defvar blub-poem nil)
 (setf blub-poem (make-instance 'repeating-poem-definition))
 
-; TODO: special setup note - last two opening lines equal to verse-punctuator, don't repeat!
-
 (setf (opening-verse blub-poem)
       '("I once wrote a program that wouldn't compile"
         "I don't know why it wouldn't compile"
@@ -38,4 +36,5 @@
                       :name 'JSR
                       :introduction '("I needed to abstract more than just a class" "This language's abstraction facilities are really crass")
                       :repetition '("I added a JSR for macro metaprogramming"))))
-                        
+
+;(output-whole-poem t blub-poem)
