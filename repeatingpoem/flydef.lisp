@@ -14,7 +14,7 @@
 		"She died of course"))
 
 (setf (verse-punctuator fly-poem)
-      '("I don't know what she swallowed that fly" "Perhaps she'll die"))
+      '("I don't know why she swallowed that fly" "Perhaps she'll die"))
  
 (setf (repetative-verses fly-poem)
 	  (list
@@ -34,5 +34,7 @@
 		:name 'dog 
 		:introduction '("There was an old woman who swallowed a dog" "What a hog to swallow a dog")
 		:repetition '("She swallowed the dog to catch the cat"))))
+
+
 		
 

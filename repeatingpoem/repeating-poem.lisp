@@ -25,10 +25,29 @@
     :initarg :name)
    (introductory-lines
     :documentation "The lines that introduce the verse to the poem. Never repeats itself." 
-    :initarg :introduction)
+    :initarg :introduction
+    :accessor introduction)
    (repeating-lines
     :documentation "The lines that repeat themselves through the poem for the whole verse."
-    :initarg :repetition)))
+    :initarg :repetition
+    :accessor repetition)))
+
+
+(defmethod construct-nth-verse ((poem-definition repeating-poem-definition) n)
+  "Constructs the nth verse by reverse iterating through the lst of repetative-verses"
+  (let* ((poem-verses (repetative-verses poem-definition))
+         (ith-verse-definition (nth n poem-verses)))
+    (append 
+     (introduction ith-verse-definition)
+     (loop for i from n downTo 0
+        append (repetition (nth i poem-verses)))
+     (verse-punctuator poem-definition))))
+
+(defun repeating-poem-pretty-printer (lst)
+  (loop for el in lst
+       do (format t "~A~%" el)))
+
+
 
 
 
