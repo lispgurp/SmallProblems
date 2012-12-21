@@ -1,28 +1,37 @@
-(setf *poem-opening* 
+(defvar fly-poem nil)
+
+(setf fly-poem (make-instance 'repeating-poem-definition))
+
+
+(setf (opening-lines fly-poem) 
 	  '("There was an old woman who swallowed a fly"
 		"I don't know why she swallowed that fly"
 		"Perhaps she'll die."))
-(setf *poem-closing*
+
+(setf (closing-lines fly-poem)
 	  '("There was an old woman who swallowed a horse"
 		"She died of course"))
+
+(setf (verse-punctuator fly-poem)
+      '("I don't know what she swallowed that fly" "Perhaps she'll die"))
  
-(setf *repetition*
+(setf (repetative-verses fly-poem)
 	  (list
-	   (make-repetative-verse
+	   (make-instance 'repetative-verse
 		:name 'spider
-		:introductory-lines '("There was an old woman who swallowed a spider" "That wriggled and iggled and jiggled insider her") 
-		:repeating-lines "She swallowed the spider to catch the fly")
-	   (make-repetative-verse
+		:introduction '("There was an old woman who swallowed a spider" "That wriggled and iggled and jiggled insider her") 
+		:repetition "She swallowed the spider to catch the fly")
+	   (make-instance 'repetative-verse
 		:name 'bird 
-		:introductory-lines '("There was an old woman who swallowed a bird" "How absurd to swallow a bird")
-		:repeating-lines "She swallowed the bird to catch the spider")
-	   (make-repetative-verse
+		:introduction '("There was an old woman who swallowed a bird" "How absurd to swallow a bird")
+		:repetition "She swallowed the bird to catch the spider")
+	   (make-instance 'repetative-verse
 		:name 'cat 
-		:introductory-lines '("There was an old woman who swallowed a cat" "Imagine that to swallow a cat")
-		:repeating-lines "She swallowed the cat to catch the bird")
-	   (make-repetative-verse
+		:introduction '("There was an old woman who swallowed a cat" "Imagine that to swallow a cat")
+		:repetition "She swallowed the cat to catch the bird")
+	   (make-instance 'repetative-verse
 		:name 'dog 
-		:introductory-lines '("There was an old woman who swallowed a dog" "What a hog to swallow a dog")
-		:repeating-lines "She swallowed the dog to catch the cat")))
+		:introduction '("There was an old woman who swallowed a dog" "What a hog to swallow a dog")
+		:repetition "She swallowed the dog to catch the cat")))
 		
 

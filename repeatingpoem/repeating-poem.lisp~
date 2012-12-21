@@ -1,20 +1,21 @@
-; writing a repetative poem
+; This API is based on abstracting three types of repetative poems that are used as the introductory programming problem in
+; the University of Washington's introductory programming class, cse 142. Traditionally, the student only has to abstract
+; the repetetition of one poem using Java static methods. I though that this problem statement is too boring so I changed
+; it to abstract all of the different types of poem that have been used in 142 in the last year (that is why there are 3).
 
-;1) *opening*  (lines that start the poem)
-;2) *closing*  (lines that end the poem)
-;3) *repetition*
-;     :objects (the names of things that will repeat themselves)
-;     :ending-line (the line that repeatedly punctuates each verse)
-;4) *verses* (defines what is unique to each verse)
-;       :name (as defined in :objects of repetition chain)
-;       :introductory-lines 
-;       :repetition-lines
+(defclass repeating-poem-definition ()
+  ((poem-opening-lines)       ; List of lines that begin the poem. Never repeats itself.
+   (poem-closing-lines)       ; List of lines that close the poem. Never repeats itself.
+   (poem-repetative-verses)))  ; List of repetative verse structures. This is where the repetitions are defined.
+
+(defclass repetative-verse ()   ; Definition of each verse that repeats itself
+  ((name)                     ; A label for each verse. Intended to be an aid for you when you analyze the poem to breakdown the repetition.
+   (introductory-lines)       ; The lines that introduce the verse to the poem. Never repeats itself. 
+   (repeating-lines)))         ; The lines that repeat themselves through the poem for the whole verse.
 
 
-(defvar *opening*)
-(defvar *closing*)
-(defvar *repetition*)
-(defvar *verses*)
+
+       
 
 
 
