@@ -9,8 +9,7 @@
 ;
 ; this is one of the introductory problems in Computer Science and Engineering 142 at 
 ; UW. In it the student has to create a command line driven application that, line by
-; line defines thier grades for the quarter. See spec.pdf for more details
-;
+; line defines thier grades for the quarter. See spec.pdf for more details. 
 
 ; *motivation* 
 ;
@@ -19,6 +18,7 @@
 ; this it's classic incarnation is that one loses to stack and cannot go back to where the error is 
 ; to do things differently. 
 ;
+
 
 ; *** data objects ***********************************************************************************************
 ; exam, homework, result
@@ -51,78 +51,81 @@
      :accessor weighted-score
      :initform (make-instance 'field
                               :display-prefix "weighted Score ="
-                              :constraint '(:range 0 50)))
-   ) ; end slot defs
-) ; end classdef
+                              :constraint '(:todo)))
+   ) 
+)
+
+(defclass assignment ()
+  (
+   (assignment-label
+    :accessor name
+    :initform (make-instance 'field
+                             :display-prefix "Assignment"
+                             :constraint '(:positive-integers)))
+   (maximum-value
+    :accessor maximum
+    :initform (make-instance 'field
+                             :display-prefix "Max:"
+                             :constraint '(:positive-integers)))
+   (score
+    :accessor score
+    :initform (make-instance 'field
+                             :display-prefix "Score:"
+                             :constraint '(:range 0 '(max this))))
+   )
+) 
+   
+               
+
 
 (defclass homework ()
     (
 
-     (field-name
-      :accessor field-name
+     (weight
+      :accessor weight
       :initform (make-instance 'field
-                               :display-prefix "display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
+                               :display-prefix "What is its weight?"
+                               :constraint '(:range 0 100)))
+     (assignments
+      :documentation "collection of assignment objects, to determine at runtime"
+      :accessor assignments 
+      :initform nil)
+
+     (number-of-sections
+      :accessor n-sections
       :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
+                               :display-prefix "How many sections did you attend?"
+                               :constraint '(:positive-integers)))
+     (section-points
+      :accessor section-points
       :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
+                               :display-prefix "Section Points = "
+                               :constraint '(:range 0 (* (n-sections this) 5))))
+     (total-points
+      :accessor total-points
       :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
+                               :display-prefix "Total Points = "
+                               :constraint '(:range 0 (sum (assigments max))))) ; TODO define with the calculation will be
+     (weighted-score
+      :accessor weighted-score
       :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-     ) ; end slot defs
-); end defclass
+                               :display-prefix "Weighted Score ="
+                               :constraint '(:to-do)))
+     )
+)
 
 (defclass result ()
   (
+   (overall-percentage
+      :accessor percentage
+      :initform (make-instance 'field
+                               :display-prefix "Overall Percentage ="
+                               :constraint '(:range 0 100)))
    (field-name
       :accessor field-name
       :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-   (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
-   (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "Display Prefix"
-                               :constraint '()))
+                               :display-prefix "Your Grade Will Be At Least"
+                               :constraint '(:range 0 4)))
    );end slot defs
 ); end defclass
 
