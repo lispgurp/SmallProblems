@@ -2,8 +2,7 @@
 ; *overview*
 ;
 ; this is part 2 in a continuing series to convince myself that little bitty
-; problems are fun and easily doable in a Real Language like Lisp (tm) as opposed
-; to my blubstream programming. 
+; problems are fun and easily doable in my favorite language, Common Lisp
 ;
 
 ; *problem statement*
