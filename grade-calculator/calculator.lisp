@@ -1,4 +1,3 @@
-;c: 2.75
 ; *overview*
 ;
 ; this is part 2 in a continuing series to convince myself that little bitty
@@ -19,12 +18,20 @@
 ; to do things differently. 
 ;
 
-
 ; *** data objects ***********************************************************************************************
 ; exam, homework, result
 
+(defvar *intro-display* nil)
+(setf *intro-display* "This program reads exam/homework scores and reports your overall course grade")
+
 (defclass exam ()
   (
+   (label
+    :accessor label
+    :initform (make-instance 'field
+                             :display-prefx "exam ~A:"
+                             :constraint '(:positive-integer)))
+
    (weight
     :accessor weight
     :initform (make-instance 'field 
@@ -40,16 +47,22 @@
      :initform (make-instance 'field
                               :display-prefix "was there a curve?"
                               :constraint '(:constants "Y" "N")))
+   (curve-weight
+    :accessor curve-weight
+    :initform (make-instance 'field
+                              :display-prefix "how much was the curve?"
+                              :constraint nil))
+    
     (points
-     :documentation "calculated internally"
      :accessor points
      :initform (make-instance 'field
+                              :is-internal-calc? t
                               :display-prefix "total points ="
                               :constraint '(:range 0 100)))
     (weighed-score
-     :documentation "calculated internally"
      :accessor weighted-score
      :initform (make-instance 'field
+                              :is-internal-calc? t
                               :display-prefix "weighted Score ="
                               :constraint '(:todo)))
    ) 
@@ -75,12 +88,8 @@
    )
 ) 
    
-               
-
-
 (defclass homework ()
     (
-
      (weight
       :accessor weight
       :initform (make-instance 'field
@@ -99,16 +108,19 @@
      (section-points
       :accessor section-points
       :initform (make-instance 'field
+                               :is-internal-calc? t
                                :display-prefix "section Points = "
                                :constraint '(:range 0 (* (n-sections this) 5))))
      (total-points
       :accessor total-points
       :initform (make-instance 'field
+                               :is-internal-calc? t
                                :display-prefix "total Points = "
                                :constraint '(:range 0 (sum (assigments max))))) ; TODO define with the calculation will be
      (weighted-score
       :accessor weighted-score
       :initform (make-instance 'field
+                               :is-internal-calc? t
                                :display-prefix "weighted Score ="
                                :constraint '(:to-do)))
      )
@@ -117,20 +129,20 @@
 (defclass result ()
   (
    (overall-percentage
-      :accessor percentage
-      :initform (make-instance 'field
-                               :display-prefix "overall Percentage ="
-                               :constraint '(:range 0 100)))
-   (field-name
-      :accessor field-name
-      :initform (make-instance 'field
-                               :display-prefix "your Grade Will Be At Least"
-                               :constraint '(:range 0 4)))
+    :accessor overall-percentage
+    :initform (make-instance 'field
+                             :is-internal-calc? t
+                             :display-prefix "overall Percentage ="
+                             :constraint '(:range 0 100)))
+   (grade
+    :accessor grade
+    :initform (make-instance 'field
+                             :is-internal-calc?
+                             :display-prefix "your grade will be at least"
+                             :constraint '(:range 0 4)))
    )
 )
 
-
-; this object will capture the value, what will be printed, and the data that constrains the value
 (defclass field ()
   ((raw-value
     :documentation "value of the field. Normally used directly in data structure definitions (class/struct, etc)"
@@ -142,7 +154,19 @@
    (display-prefix
     :documentation "intended to accompany display output"
     :initarg :display-prefix
-    :accessor display-prefix)))
-; TODO find "static" qualifier or extend MOP with :singleton     
+    :accessor display-prefix)
+   (is-internal-calculation?
+    :documentation "t if calculated internally, nil if read in as input"
+    :accessor is-internal-calc?
+    :initarg :is-internal-calc?
+    :initform nil)))
+
+
+
+
+
+
+
+
 
 
