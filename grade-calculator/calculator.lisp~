@@ -60,17 +60,17 @@
    (assignment-label
     :accessor name
     :initform (make-instance 'field
-                             :display-prefix "assignment"
+                             :display-prefix "Assignment"
                              :constraint '(:positive-integers)))
    (maximum-value
     :accessor maximum
     :initform (make-instance 'field
-                             :display-prefix "max:"
+                             :display-prefix "Max:"
                              :constraint '(:positive-integers)))
    (score
     :accessor score
     :initform (make-instance 'field
-                             :display-prefix "score:"
+                             :display-prefix "Score:"
                              :constraint '(:range 0 '(max this))))
    )
 ) 
@@ -84,7 +84,7 @@
      (weight
       :accessor weight
       :initform (make-instance 'field
-                               :display-prefix "what is its weight?"
+                               :display-prefix "What is its weight?"
                                :constraint '(:range 0 100)))
      (assignments
       :documentation "collection of assignment objects, to determine at runtime"
@@ -94,22 +94,22 @@
      (number-of-sections
       :accessor n-sections
       :initform (make-instance 'field
-                               :display-prefix "how many sections did you attend?"
+                               :display-prefix "How many sections did you attend?"
                                :constraint '(:positive-integers)))
      (section-points
       :accessor section-points
       :initform (make-instance 'field
-                               :display-prefix "section Points = "
+                               :display-prefix "Section Points = "
                                :constraint '(:range 0 (* (n-sections this) 5))))
      (total-points
       :accessor total-points
       :initform (make-instance 'field
-                               :display-prefix "total Points = "
+                               :display-prefix "Total Points = "
                                :constraint '(:range 0 (sum (assigments max))))) ; TODO define with the calculation will be
      (weighted-score
       :accessor weighted-score
       :initform (make-instance 'field
-                               :display-prefix "weighted Score ="
+                               :display-prefix "Weighted Score ="
                                :constraint '(:to-do)))
      )
 )
@@ -119,12 +119,12 @@
    (overall-percentage
       :accessor percentage
       :initform (make-instance 'field
-                               :display-prefix "overall Percentage ="
+                               :display-prefix "Overall Percentage ="
                                :constraint '(:range 0 100)))
    (field-name
       :accessor field-name
       :initform (make-instance 'field
-                               :display-prefix "your Grade Will Be At Least"
+                               :display-prefix "Your Grade Will Be At Least"
                                :constraint '(:range 0 4)))
    )
 )
@@ -145,4 +145,8 @@
     :accessor display-prefix)))
 ; TODO find "static" qualifier or extend MOP with :singleton     
 
+; data definition (1 hr) [2.75] extra time because of design data declaration of constraint system (1) and some lack of focus (.75)
+; Algorithm for each kind of calculation (1 hr)
+; Constraint checking with the condition system (1 hr)
+; Repl I/O (1 hr)
 

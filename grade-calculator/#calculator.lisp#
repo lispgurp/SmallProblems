@@ -145,4 +145,5 @@
     :accessor display-prefix)))
 ; TODO find "static" qualifier or extend MOP with :singleton     
 
-
+; pieces: command line I/O
+;         invalid input flagging
