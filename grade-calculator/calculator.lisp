@@ -20,7 +20,8 @@
 
 ; *** data objects ***********************************************************************************************
 ; exam, homework, result
-; 1.75,2.75,3.5,6.5
+; 1.75,2.75,3.5,7
+
 
 (defvar *intro-display* nil)
 (setf *intro-display* "This program reads exam/homework scores and reports your overall course grade")
@@ -39,13 +40,12 @@
     :accessor label
     :initform (make-instance 'field
                              :display-string "exam ~A:"
-                             :constraint '(:positive-integer)
-                             :display-constraint? t))
+                             :constraint '(:positive-integer)))
 
    (weight
     :accessor weight
     :initform (make-instance 'field 
-                              :display-string "what is its weight ~A ?"
+                              :display-string "what is its weight (~A) ?"
                               :constraint '(:range 0 100)
                               :display-constraint? t))
     (score
@@ -56,8 +56,8 @@
     (curve?
      :accessor curve?
      :initform (make-instance 'field
-                              :display-string "was there a curve ~A ?"
-                              :constraint '(:constants "Y" "N")
+                              :display-string "was there a curve (~A) ?"
+                              :constraint '(:binary-flag :true "Y" :false "N")
                               :display-constraint? t))
    (curve
     :accessor curve
@@ -110,7 +110,7 @@
      (weight
       :accessor weight
       :initform (make-instance 'field
-                               :display-string "what is its weight ~A ?"
+                               :display-string "what is its weight (~A) ?"
                                :constraint '(:range 0 100)
                                :display-constraint? t))
      (assignments
@@ -209,15 +209,36 @@
    )
 )
 
-(defmethod format-display-string ((f field))
-  "fills in ONE atom if the display prefix is a format string"
-  (if (has-formatting-string? (display-string f))
-      (format nil (display-string f) (value f))
-      (display-string)))
+(defgeneric process-field (field))
+(defgeneric display-calculation (field))
+(defgeneric format-raw-value (field))
 
-(defun has-formatting-string? (str)
-  "looks for one tilde TODO"
+
+;;; field processing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmethod process-field ((f field))
+  (if (user-input? f)
+      (prompt-for-user-input f)
+      (display-calculation f)))
+
+; TODO use with-accessors, if it simplifies
+(defmethod display-calculation ((f field))
+  "shows a calculation to the user"
+  (if (is-fraction? f)
+      (format t (display-string f) (format-raw-value f) (denominator f))
+      (format t "~A ~A" (display-string f) (format-raw-value f)))) 
+
+;TODO define as reader in field definition, if it simplifies
+(defmethod format-raw-value ((f field))
+    (if (is-decimal? f)
+        (format t "~1$" (value f))
+        (format t "~A" (value f))))
+
+(defmethod prompt-for-user-input ((f field))
+  "will read in user input"
   ())
+
+;;; object processing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod process-user-input ((eggsam exam))
   (format t "To Implement eggsam user I/O processor"))
@@ -240,8 +261,9 @@
 
 ; data definition - done
 ; user I/O 
-; constraint processor
 ; calculations
+; constraint processor
+
 
 
 
