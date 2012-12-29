@@ -69,6 +69,7 @@
      :accessor points
      :initform (make-instance 'field
                               :is-fraction? t
+                              :user-input? nil
                               :display-string "total points = ~A / ~A"
                               :constraint '(:range 0 100)))
     (weighed-score
@@ -76,6 +77,7 @@
      :initform (make-instance 'field
                               :is-fraction? t
                               :is-decimal? t
+                              :user-input? nil
                               :display-string "weighted score = ~A / ~A"
                               :constraint '(:todo)))
    ) 
@@ -125,12 +127,14 @@
       :accessor section-points
       :initform (make-instance 'field
                                :is-fraction? t
+                               :user-input? nil
                                :display-string "section points = ~A / ~A "
                                :constraint '(:todo)))
      (total-points
       :accessor total-points
       :initform (make-instance 'field
                                :is-fraction? t
+                               :user-input? nil
                                :display-string "total points = ~A / ~A "
                                :constraint '(:todo)))
      (weighted-score
@@ -138,6 +142,7 @@
       :initform (make-instance 'field
                                :is-fraction? t
                                :is-decimal? t
+                               :user-input? nil
                                :display-string "weighted score = ~A / ~A "
                                :constraint '(:todo)))
      )
@@ -150,12 +155,14 @@
     :initform (make-instance 'field
                              :display-string "overall percentage ="
                              :is-decimal? t
+                             :user-input? nil
                              :constraint '(:range 0 100)))
    (grade
     :accessor grade
     :initform (make-instance 'field
                              :display-string "your grade will be at least:"
                              :is-decimal? t
+                             :user-input? nil
                              :constraint '(:range 0 4)))
    )
 )
@@ -194,6 +201,11 @@
     :accessor is-decimal?
     :initarg :is-decimal?
     :initform nil)
+   (user-input?
+    :documentation "if t, asks the user for input, default to true since most fields "
+    :accessor user-input?
+    :initarg user-input?
+    :initform t)
    )
 )
 
