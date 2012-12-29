@@ -20,81 +20,97 @@
 
 ; *** data objects ***********************************************************************************************
 ; exam, homework, result
+; 1.75,2.75,3.5,6.5
 
 (defvar *intro-display* nil)
 (setf *intro-display* "This program reads exam/homework scores and reports your overall course grade")
 
-(defclass exam ()
+(defclass grade-object ()
+  (
+   
+   )
+)
+
+(defgeneric process-user-input (grade-o)) 
+
+(defclass exam (grade-object)
   (
    (label
     :accessor label
     :initform (make-instance 'field
-                             :display-prefx "exam ~A:"
-                             :constraint '(:positive-integer)))
+                             :display-string "exam ~A:"
+                             :constraint '(:positive-integer)
+                             :display-constraint? t))
 
    (weight
     :accessor weight
     :initform (make-instance 'field 
-                              :display-prefix "what is its weight?"
-                              :constraint '(:range 0 100)))
+                              :display-string "what is its weight ~A ?"
+                              :constraint '(:range 0 100)
+                              :display-constraint? t))
     (score
      :accessor score
      :initform (make-instance 'field
-                              :display-prefix "score earned?"
+                              :display-string "score earned?"
                               :constraint '(:range 0 100)))
     (curve?
      :accessor curve?
      :initform (make-instance 'field
-                              :display-prefix "was there a curve?"
-                              :constraint '(:constants "Y" "N")))
-   (curve-weight
-    :accessor curve-weight
+                              :display-string "was there a curve ~A ?"
+                              :constraint '(:constants "Y" "N")
+                              :display-constraint? t))
+   (curve
+    :accessor curve
     :initform (make-instance 'field
-                              :display-prefix "how much was the curve?"
-                              :constraint nil))
-    
+                              :display-string "how much was the curve?"
+                              :constraint '(:todo)))
+     
     (points
      :accessor points
      :initform (make-instance 'field
-                              :is-internal-calc? t
-                              :display-prefix "total points ="
+                              :is-fraction? t
+                              :display-string "total points = ~A / ~A"
                               :constraint '(:range 0 100)))
     (weighed-score
      :accessor weighted-score
      :initform (make-instance 'field
-                              :is-internal-calc? t
-                              :display-prefix "weighted Score ="
+                              :is-fraction? t
+                              :is-decimal? t
+                              :display-string "weighted score = ~A / ~A"
                               :constraint '(:todo)))
    ) 
 )
 
-(defclass assignment ()
+
+(defclass assignment (grade-object)
   (
    (assignment-label
     :accessor name
     :initform (make-instance 'field
-                             :display-prefix "assignment"
-                             :constraint '(:positive-integers)))
+                             :display-string "assignment ~A:"
+                             :constraint '(:positive-integer)
+                             :display-constraint? t))
    (maximum-value
     :accessor maximum
     :initform (make-instance 'field
-                             :display-prefix "max:"
-                             :constraint '(:positive-integers)))
+                             :display-string "max:"
+                             :constraint '(:positive-integer)))
    (score
     :accessor score
     :initform (make-instance 'field
-                             :display-prefix "score:"
-                             :constraint '(:range 0 '(max this))))
+                             :display-string "score:"
+                             :constraint '(:todo)))
    )
 ) 
    
-(defclass homework ()
+(defclass homework (grade-object)
     (
      (weight
       :accessor weight
       :initform (make-instance 'field
-                               :display-prefix "what is its weight?"
-                               :constraint '(:range 0 100)))
+                               :display-string "what is its weight ~A ?"
+                               :constraint '(:range 0 100)
+                               :display-constraint? t))
      (assignments
       :documentation "collection of assignment objects, to determine at runtime"
       :accessor assignments 
@@ -103,68 +119,117 @@
      (number-of-sections
       :accessor n-sections
       :initform (make-instance 'field
-                               :display-prefix "how many sections did you attend?"
-                               :constraint '(:positive-integers)))
+                               :display-string "how many sections did you attend?"
+                               :constraint '(:positive-integer)))
      (section-points
       :accessor section-points
       :initform (make-instance 'field
-                               :is-internal-calc? t
-                               :display-prefix "section Points = "
-                               :constraint '(:range 0 (* (n-sections this) 5))))
+                               :is-fraction? t
+                               :display-string "section points = ~A / ~A "
+                               :constraint '(:todo)))
      (total-points
       :accessor total-points
       :initform (make-instance 'field
-                               :is-internal-calc? t
-                               :display-prefix "total Points = "
-                               :constraint '(:range 0 (sum (assigments max))))) ; TODO define with the calculation will be
+                               :is-fraction? t
+                               :display-string "total points = ~A / ~A "
+                               :constraint '(:todo)))
      (weighted-score
       :accessor weighted-score
       :initform (make-instance 'field
-                               :is-internal-calc? t
-                               :display-prefix "weighted Score ="
-                               :constraint '(:to-do)))
+                               :is-fraction? t
+                               :is-decimal? t
+                               :display-string "weighted score = ~A / ~A "
+                               :constraint '(:todo)))
      )
 )
 
-(defclass result ()
+(defclass result (grade-object)
   (
    (overall-percentage
     :accessor overall-percentage
     :initform (make-instance 'field
-                             :is-internal-calc? t
-                             :display-prefix "overall Percentage ="
+                             :display-string "overall percentage ="
+                             :is-decimal? t
                              :constraint '(:range 0 100)))
    (grade
     :accessor grade
     :initform (make-instance 'field
-                             :is-internal-calc?
-                             :display-prefix "your grade will be at least"
+                             :display-string "your grade will be at least:"
+                             :is-decimal? t
                              :constraint '(:range 0 4)))
    )
 )
 
+; encapsulates the field for the sake of constraint processing 
 (defclass field ()
-  ((raw-value
+  (
+   (raw-value
     :documentation "value of the field. Normally used directly in data structure definitions (class/struct, etc)"
     :accessor value)
    (constraint
     :documentation  "declares what the valid values are or what the range is, to be used with condition system"
     :initarg :constraint
     :accessor constraint)
-   (display-prefix
+   (display-constraint?
+    :documentation "if t, indicates whether it should plug a single constraint into display-string"
+    :initarg :display-constraint?
+    :accessor display-constraint?
+    :initform nil)
+   (display-string
     :documentation "intended to accompany display output"
-    :initarg :display-prefix
-    :accessor display-prefix)
-   (is-internal-calculation?
-    :documentation "t if calculated internally, nil if read in as input"
-    :accessor is-internal-calc?
-    :initarg :is-internal-calc?
-    :initform nil)))
+    :initarg :display-string
+    :accessor display-string)
+   (is-fraction?
+    :documentation "if t, plugs value as numerator and denom into display-string"
+    :accessor is-fraction?
+    :initarg :is-fraction?
+    :initform nil)
+   (denominator
+    :documentation "will be set if the value is a fraction"
+    :accessor denom
+    :initarg :denom
+    :initform nil)
+   (is-decimal?
+    :documentation "if t, displays val as %number.1digit"
+    :accessor is-decimal?
+    :initarg :is-decimal?
+    :initform nil)
+   )
+)
+
+(defmethod format-display-string ((f field))
+  "fills in ONE atom if the display prefix is a format string"
+  (if (has-formatting-string? (display-string f))
+      (format nil (display-string f) (value f))
+      (display-string)))
+
+(defun has-formatting-string? (str)
+  "looks for one tilde TODO"
+  ())
+
+(defmethod process-user-input ((eggsam exam))
+  (format t "To Implement eggsam user I/O processor"))
+
+(defmethod process-user-input ((homeverk homework))
+  (format t "To implement homeverk user I/O processor"))
+
+(defmethod process-user-input ((ass-sign-ment assignment))
+  (format t "to implement ass-sign-ment user I/O processor"))
+
+(defmethod process-user-input ((resssult result))
+  (format t "To implement resssult user I/O processor"))
+
+
+(defun process-grades ()
+  "The 'main function' "
+  ())
 
 
 
-
-
+; data definition - done
+; user I/O 
+; constraint processor
+; calculations
 
 
 
