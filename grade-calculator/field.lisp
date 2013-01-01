@@ -35,7 +35,7 @@
    (user-input?
     :documentation "if t, asks the user for input, default to true since most fields "
     :accessor user-input?
-    :initarg user-input?
+    :initarg :user-input?
     :initform t)
    )
 )

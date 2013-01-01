@@ -13,7 +13,7 @@
    (label
     :accessor label
     :initform (make-instance 'field
-                             :display-string "exam ~A:"
+                             :display-string "exam ~A:~%"
                              :constraint '(:positive-integer)))
 
    (weight
@@ -44,7 +44,7 @@
      :initform (make-instance 'field
                               :is-fraction? t
                               :user-input? nil
-                              :display-string "total points = ~A / ~A"
+                              :display-string "total points = ~A / ~A ~%"
                               :constraint '(:range 0 100)))
     (weighed-score
      :accessor weighted-score
@@ -52,7 +52,7 @@
                               :is-fraction? t
                               :is-decimal? t
                               :user-input? nil
-                              :display-string "weighted score = ~A / ~A"
+                              :display-string "weighted score = ~A / ~A ~%"
                               :constraint '(:todo)))
    ) 
 )

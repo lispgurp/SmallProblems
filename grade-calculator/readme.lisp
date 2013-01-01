@@ -14,7 +14,5 @@
 ;
 ; basically, I have always wanted to use CL's condition system to decouple invalid input from main
 ; processing code. In the past I have tried to use Exceptions to do this, but the problem with
-; this it's classic incarnation is that a exception loses the stack and cannot go back to where the error is 
-; to do things differently. Note a cool alternative to CL's condition system is (probably, ithink) to
-; use continuations to implement the condition system
+; this is that in it's classic incarnation, thrown exceptions lose the stack where the problem occurred 
 ;
