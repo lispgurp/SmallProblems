@@ -2,11 +2,9 @@
 
 ;;; stream definitions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; o = output stream 
-; input = input stream
 (defvar o nil)
-(defvar input nil)
 (setf o t)
-(setf input t)
+
 
 ;;; processing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun process-grades ()
@@ -24,10 +22,15 @@
 (defmethod process ((e exam))
   (with-accessors ((l label))
       e
-    (format o (display-string l) (value l))))
+    (format o (display-string l) (value l))
+    (format o "~%")
+    (let ((exam-selectors (get-readers e))
+          (exam-fields (mapcar #'(lambda (reader)
+                                   (funcall reader e))
+                               exam-selectors)))
+      (loop for f in fields
+           (process-field f)))))
 
-;(first (sb-mop:class-direct-slots (class-of e)))
-;(mapcar #'sb-mop:slot-definition-name (sb-mop:class-slots (class-of object)))
 
 (defun get-readers (o)
   "Only gets the first reader for the object"
@@ -36,7 +39,7 @@
                            (sb-mop:class-direct-slots (class-of o)))))
     readers))
 
-;;; field processing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; field processing core ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmethod process-field ((f field))
   (if (user-input? f)
       (prompt-for-user-input f)
@@ -45,9 +48,10 @@
 (defmethod prompt-for-user-input ((f field))
   "reads in data from the input streamed named input"
   (let ((user-prompt (make-user-prompt f)))
-    (format input user-prompt)
-    (let ((hopefully-atom-integer (read)))
-      (format t "TODO: riya says, daddy process it, just process it"))))
+    (format o user-prompt)
+    (let ((input-data (read)))
+      (setf (value f) input-data)
+      (format o "~%"))))
 
 (defmethod display-calculation ((f field))
   "shows a calculation to the output stream (named: o)"
@@ -56,15 +60,13 @@
         (output-str (display-string f)))          
     (if (is-fraction? f)
         (format o output-str v d)
-        (format o "~A ~A" output-str v))))
-
+        (format o "~A ~A ~%" output-str v))))
 
 ;;; field processing helpers ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defmethod format-raw-value ((f field))
   (if (is-decimal? f)
       (format o "~1$" (value f))
       (format o "~A" (value f))))
-
 
 (defmethod make-user-prompt ((f field))
   (if (display-constraint? f)
@@ -74,4 +76,5 @@
 (defun make-constraint-string (constraint)
   "TODO: define this function"
   (format nil "~A" constraint))
+
 

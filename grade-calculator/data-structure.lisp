@@ -39,8 +39,8 @@
                               :display-string "how much was the curve?"
                               :constraint '(:todo)))
      
-    (points
-     :accessor points
+    (total-points
+     :accessor total
      :initform (make-instance 'field
                               :is-fraction? t
                               :user-input? nil
@@ -56,6 +56,29 @@
                               :constraint '(:todo)))
    ) 
 )
+; exam calculations
+; 1. exam total = 
+;  value =
+;    if(curve?)
+;      score + curve round down to 100
+;    else
+;      score
+;  denom = 100 // TODO: (constraint upper-bound)
+;    
+; 2. exam weighted-score =
+;   value = 
+;     (exam total value) / (exam total denom) * (exam weight)
+;   denom = (exam weight)  
+;
+
+;(:value-calculator  #'total-point-calculator)
+;(defun calculate-total-points (exam)
+;  ())
+  
+;(:value-calculator  #'weighted-score-calculator)
+;(defun calculate-weighted-score (exam)
+;  ())
+
 
 
 (defclass assignment (grade-object)

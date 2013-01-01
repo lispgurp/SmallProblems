@@ -37,7 +37,12 @@
     :accessor user-input?
     :initarg :user-input?
     :initform t)
-   )
+  (calculator-function
+   :documentation "calculate's the field's value and (optionally) the denominator"
+   :accessor calculator
+   :initarg :calculator
+   :initform nil)
+   )   
 )
 
 (defgeneric process-field (field))
