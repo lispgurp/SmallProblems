@@ -70,11 +70,16 @@
 
 (defmethod make-user-prompt ((f field))
   (if (display-constraint? f)
-      (format nil (display-string f) (make-constraint-string (constraint f)))
+      (format nil (display-string f) (make-constraint-string f))
       (display-string f)))
 
-(defun make-constraint-string (constraint)
-  "TODO: define this function"
-  (format nil "~A" constraint))
+(defmethod make-constraint-string ((f field))
+  (let ((constraint (constraint f))
+        (const-type (first (constraint f))))        
+    (cond ((eq const-type :range)
+           (format nil "(~A-~A)" (second constraint) (third constraint)))
+          ((eq const-type :binary-flag)
+           (format nil "(~A/~A)" (getf :true) (getf :false)))
+          
 
 

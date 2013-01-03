@@ -39,8 +39,8 @@
     :initform t)
   (calculator-function
    :documentation "calculate's the field's value and (optionally) the denominator"
-   :accessor calculator
-   :initarg :calculator
+   :accessor calc-fn
+   :initarg :calc-fn
    :initform nil)
    )   
 )
@@ -50,4 +50,4 @@
 (defgeneric format-raw-value (field))
 (defgeneric prompt-for-user-prompt (field))
 (defgeneric make-user-prompt (field))
-
+(defgeneric make-constraint-string (field))

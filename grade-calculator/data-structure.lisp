@@ -19,7 +19,7 @@
    (weight
     :accessor weight
     :initform (make-instance 'field 
-                              :display-string "what is its weight (~A) ?"
+                              :display-string "what is its weight ~A ?"
                               :constraint '(:range 0 100)
                               :display-constraint? t))
     (score
@@ -30,14 +30,14 @@
     (curve?
      :accessor curve?
      :initform (make-instance 'field
-                              :display-string "was there a curve (~A) ?"
-                              :constraint '(:binary-flag :true "Y" :false "N")
+                              :display-string "was there a curve ~A ?"
+                              :constraint '(:binary-flag nil :true "Y" :false "N")
                               :display-constraint? t))
    (curve
     :accessor curve
     :initform (make-instance 'field
                               :display-string "how much was the curve?"
-                              :constraint '(:todo)))
+                              :constraint '(:range 0 100)))
      
     (total-points
      :accessor total
@@ -45,7 +45,8 @@
                               :is-fraction? t
                               :user-input? nil
                               :display-string "total points = ~A / ~A ~%"
-                              :constraint '(:range 0 100)))
+                              :constraint '(:range 0 100)
+                              :calc-fn #'calculate-exam-total-points))
     (weighed-score
      :accessor weighted-score
      :initform (make-instance 'field
@@ -53,14 +54,15 @@
                               :is-decimal? t
                               :user-input? nil
                               :display-string "weighted score = ~A / ~A ~%"
-                              :constraint '(:todo)))
+                              :constraint '(:range 0 100)
+                              :calc-fn #'calculate-exam-weighted-score))
    ) 
 )
 ; exam calculations
 ; 1. exam total = 
 ;  value =
 ;    if(curve?)
-;      score + curve round down to 100
+;      score + curve round down to (constraint upper-bound)
 ;    else
 ;      score
 ;  denom = 100 // TODO: (constraint upper-bound)
@@ -71,15 +73,23 @@
 ;   denom = (exam weight)  
 ;
 
-;(:value-calculator  #'total-point-calculator)
-;(defun calculate-total-points (exam)
-;  ())
-  
-;(:value-calculator  #'weighted-score-calculator)
-;(defun calculate-weighted-score (exam)
-;  ())
-
-
+;TODO 100 = (constraint upper-bound)
+(defun calculate-exam-total-points (exam)
+  "sets the value and denom of total-points of exam"
+  (setf (value (total-points exam))
+        (if (value (curve? exam))
+            (let ((raw-curved-value
+                   (+ (value (score exam))
+                      (value (curve exam)))))
+              (if (>= (floor raw-curved-value 100) 1)
+                  100
+                  raw-curved-value))
+            (value (score exam))))
+  (setf (denom (total-points exam))
+        100))
+           
+(defun calculate-exam-weighted-score (exam)
+  ())
 
 (defclass assignment (grade-object)
   (
@@ -98,7 +108,7 @@
     :accessor score
     :initform (make-instance 'field
                              :display-string "score:"
-                             :constraint '(:todo)))
+                             :constraint '(:range 0 100)))
    )
 ) 
    
@@ -107,8 +117,8 @@
      (weight
       :accessor weight
       :initform (make-instance 'field
-                               :display-string "what is its weight (~A) ?"
-                               :constraint '(:range 0 100)
+                               :display-string "what is its weight ~A ?"
+                               :constraint '(:range 0 50)
                                :display-constraint? t))
      (assignments
       :documentation "collection of assignment objects, to determine at runtime"
@@ -126,14 +136,14 @@
                                :is-fraction? t
                                :user-input? nil
                                :display-string "section points = ~A / ~A "
-                               :constraint '(:todo)))
+                               :constraint '(:range 0 50)))
      (total-points
       :accessor total-points
       :initform (make-instance 'field
                                :is-fraction? t
                                :user-input? nil
                                :display-string "total points = ~A / ~A "
-                               :constraint '(:todo)))
+                               :constraint '(:positive-integer)))
      (weighted-score
       :accessor weighted-score
       :initform (make-instance 'field
@@ -141,7 +151,7 @@
                                :is-decimal? t
                                :user-input? nil
                                :display-string "weighted score = ~A / ~A "
-                               :constraint '(:todo)))
+                               :constraint '(:positive-integer)))
      )
 )
 
