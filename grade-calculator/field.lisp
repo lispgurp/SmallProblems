@@ -37,8 +37,8 @@
     :accessor user-input?
     :initarg :user-input?
     :initform t)
-  (calculator-function
-   :documentation "calculate's the field's value and (optionally) the denominator"
+  (calculator
+   :documentation "calculate and sets the field's value and denominator"
    :accessor calc-fn
    :initarg :calc-fn
    :initform nil)

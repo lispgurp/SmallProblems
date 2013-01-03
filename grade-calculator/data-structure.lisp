@@ -46,7 +46,7 @@
                               :user-input? nil
                               :display-string "total points = ~A / ~A ~%"
                               :constraint '(:range 0 100)
-                              :calc-fn #'calculate-exam-total-points))
+                              :calc-fn #'calculate-exam-total-points!))
     (weighed-score
      :accessor weighted-score
      :initform (make-instance 'field
@@ -55,7 +55,7 @@
                               :user-input? nil
                               :display-string "weighted score = ~A / ~A ~%"
                               :constraint '(:range 0 100)
-                              :calc-fn #'calculate-exam-weighted-score))
+                              :calc-fn #'calculate-exam-weighted-score!))
    ) 
 )
 ; exam calculations
@@ -74,8 +74,8 @@
 ;
 
 ;TODO 100 = (constraint upper-bound)
-(defun calculate-exam-total-points (exam)
-  "sets the value and denom of total-points of exam"
+(defun calculate-exam-total-points! (exam)
+  "calculates and sets the value and denom of total-points of exam"
   (setf (value (total-points exam))
         (if (value (curve? exam))
             (let ((raw-curved-value
@@ -88,8 +88,15 @@
   (setf (denom (total-points exam))
         100))
            
-(defun calculate-exam-weighted-score (exam)
-  ())
+(defun calculate-exam-weighted-score! (exam)
+  "Precondition: calculate-exam-total-points! already called to mutate exam
+   Definition: calculates and sets the value and denom of weighted score of exam"
+  (setf (value (weighted-score exam))
+        (* (value (weight exam))
+           (/ (value (total-points exam))
+              (denom (total-points exam)))))
+  (setf (denom (weighted-score exam))
+        (value (weight exam))))
 
 (defclass assignment (grade-object)
   (
