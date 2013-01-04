@@ -45,7 +45,7 @@
    )   
 )
 
-(defgeneric process-field (field))
+(defgeneric process-field (field grade-object))
 (defgeneric display-calculation (field))
 (defgeneric format-raw-value (field))
 (defgeneric prompt-for-user-prompt (field))

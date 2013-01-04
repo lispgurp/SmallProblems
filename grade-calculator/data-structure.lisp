@@ -13,38 +13,38 @@
    (label
     :accessor label
     :initform (make-instance 'field
-                             :display-string "exam ~A:~%"
+                             :display-string "Exam ~A:"
                              :constraint '(:positive-integer)))
 
    (weight
     :accessor weight
     :initform (make-instance 'field 
-                              :display-string "what is its weight ~A ?"
+                              :display-string "What is its weight ~A?"
                               :constraint '(:range 0 100)
                               :display-constraint? t))
     (score
      :accessor score
      :initform (make-instance 'field
-                              :display-string "score earned?"
+                              :display-string "Score earned?"
                               :constraint '(:range 0 100)))
     (curve?
      :accessor curve?
      :initform (make-instance 'field
-                              :display-string "was there a curve ~A ?"
+                              :display-string "Was there a curve ~A ?"
                               :constraint '(:binary-flag nil :true "Y" :false "N")
                               :display-constraint? t))
    (curve
     :accessor curve
     :initform (make-instance 'field
-                              :display-string "how much was the curve?"
-                              :constraint '(:range 0 100)))
+                             :display-string "How much was the curve?"
+                             :constraint '(:range 0 100)))
      
     (total-points
-     :accessor total
+     :accessor total-pts
      :initform (make-instance 'field
                               :is-fraction? t
                               :user-input? nil
-                              :display-string "total points = ~A / ~A ~%"
+                              :display-string "Total points = ~A / ~A"
                               :constraint '(:range 0 100)
                               :calc-fn #'calculate-exam-total-points!))
     (weighed-score
@@ -53,7 +53,7 @@
                               :is-fraction? t
                               :is-decimal? t
                               :user-input? nil
-                              :display-string "weighted score = ~A / ~A ~%"
+                              :display-string "Weighted score = ~A / ~A"
                               :constraint '(:range 0 100)
                               :calc-fn #'calculate-exam-weighted-score!))
    ) 
@@ -75,8 +75,8 @@
 
 ;TODO 100 = (constraint upper-bound)
 (defun calculate-exam-total-points! (exam)
-  "calculates and sets the value and denom of total-points of exam"
-  (setf (value (total-points exam))
+  "sets the numerator and denominator of total-points of exam object"
+  (setf (value (total-pts exam))
         (if (value (curve? exam))
             (let ((raw-curved-value
                    (+ (value (score exam))
@@ -85,16 +85,15 @@
                   100
                   raw-curved-value))
             (value (score exam))))
-  (setf (denom (total-points exam))
+  (setf (denom (total-pts exam))
         100))
            
 (defun calculate-exam-weighted-score! (exam)
-  "Precondition: calculate-exam-total-points! already called to mutate exam
-   Definition: calculates and sets the value and denom of weighted score of exam"
+  "sets the numerator and denominator of weighted-score of exam object"
   (setf (value (weighted-score exam))
         (* (value (weight exam))
-           (/ (value (total-points exam))
-              (denom (total-points exam)))))
+           (/ (value (total-pts exam))
+              (denom (total-pts exam)))))
   (setf (denom (weighted-score exam))
         (value (weight exam))))
 
