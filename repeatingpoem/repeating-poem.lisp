@@ -1,8 +1,12 @@
 ; *** Overview ****
 ;
-; This program is first of a project where I attempt to revivify my interest in programming by
+; Originally, this problem was a toy that I was using to revivify my interest in programming by
 ; proving to myself that the kind of piddily diddily problems that are typical in an interview/entry
-; level programming are fun and easily doable in my favorite language, Lisp.
+; level programming are fun and easily doable in my favorite language, Lisp. However, now that this is
+; done (it was actually a reminder of all those times I liked coding in Lisp), I am now using this program
+; as fodder for my lightweight language workbench for CL.
+;
+; *Problem Statement*
 ;
 ; This API is based on abstracting three types of repetative poems that are used as the first programming problem in
 ; the University of Washington's introductory programming class, cse 142. Traditionally, the student only has to abstract

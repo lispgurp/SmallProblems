@@ -1,7 +1,6 @@
 ; *overview*
 ;
-; this is part 2 in a continuing series to convince myself that little bitty
-; problems are fun and easily doable in my favorite language, Common Lisp
+; This code is now serving as fodder for my silly little language workbench called cl-lwblight 
 ;
 
 ; *problem statement*

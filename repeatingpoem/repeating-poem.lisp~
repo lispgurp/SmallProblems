@@ -2,9 +2,7 @@
 ;
 ; This program is first of a project where I attempt to revivify my interest in programming by
 ; proving to myself that the kind of piddily diddily problems that are typical in an interview/entry
-; level programming classes in blubstream programming are trivialized and are actually 
-; fun to do in a Real Language like Lisp.
-;
+; level programming are fun and easily doable in my favorite language, Lisp.
 ;
 ; This API is based on abstracting three types of repetative poems that are used as the first programming problem in
 ; the University of Washington's introductory programming class, cse 142. Traditionally, the student only has to abstract
@@ -26,7 +24,7 @@
 ;  - 2. Feed the desired poem's lisp definition into the interpreter in \poem-definitions
 ;  - 3. Execute the commented out lines at the end of the desired each \poem-definitions file in the root github directory
 
-;;; Repeating Poem Data Structure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;**** data structure ***********************************************************************
 
 (defclass repeating-poem-definition ()
   ; "Data structure that defines a repetative poem"
