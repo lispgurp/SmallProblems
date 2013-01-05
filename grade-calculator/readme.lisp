@@ -9,7 +9,7 @@
 ; UW. In it the student has to create a command line driven application that, line by
 ; line defines thier grades for the quarter. See spec.pdf for more details. 
 
-; *motivation* 
+; *extra motivation* 
 ;
 ; basically, I have always wanted to use CL's condition system to decouple invalid input from main
 ; processing code. In the past I have tried to use Exceptions to do this, but the problem with

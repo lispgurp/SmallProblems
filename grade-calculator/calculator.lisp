@@ -5,7 +5,6 @@
 (defvar out nil)
 (setf out t)
 
-
 ;;; processing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(process-grades)
 (defun process-grades ()
@@ -20,18 +19,6 @@
     (loop for exam in exams
        do (process exam))))
 
-;(defmethod process ((e exam))
-;  (with-accessors ((l label))
-;      e
-;    (format out (display-string l) (value l))
-;    (format out "~%")
-;    (let* ((exam-selectors (get-readers e))
-;           (exam-fields (mapcar #'(lambda (reader)
-;                                   (funcall reader e))
-;                               exam-selectors)))
-;      (loop for f in (rest exam-fields)
-;         do (process-field f e)))))
-
 (defmethod process ((e exam))
   (with-accessors ((l label))
       e
@@ -40,14 +27,23 @@
     (let ((exam-selectors (get-readers e)))
       (loop for selector in (rest exam-selectors)
          do (let ((exam-field (funcall selector e))) 
-              (process-field exam-field e))))))
+              (if (eq selector 'curve)
+                  (when (eq (value (curve? e)) "Y")
+                    (process-field exam-field e))
+                  (process-field exam-field e)))))))
 
-;(funcall exam-selectors e)
-; if (field == curve)
-;    if(value (curve? exam)) == "Y"
-;      process-field f // only process the field if the user said so
-; else
-;     process-field f
+(defmethod process ((hw homework))
+  (let ((hw-selectors (get-readers hw)))
+    (loop for selector in (hw-selectors)
+         do (let ((hw-field (funcall selector hw)))
+              (process-field hw-field hw)))))
+
+(defun process-generic-fn (o process-fn)
+  (let ((obj-selectors (get-readers o)))
+    (loop for selector in (obj-selectors)
+         do (let ((f (funcall selector o)))
+              (funcall process-fn (list o f))))))
+
 
 (defun get-readers (obj)
   "Only gets the first reader for the object"
@@ -101,5 +97,8 @@
           ((eq const-type :binary-flag)
            (format nil "(~A/~A)" (getf c :true) (getf c :false))))))
           
+; two subproblems left
+; 1. finish the calculations i/o for objects 
+; 2. reprogram condition system to catch invalid input
 
 
