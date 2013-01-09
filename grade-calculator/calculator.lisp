@@ -19,30 +19,52 @@
     (loop for exam in exams
        do (process exam))))
 
-(defmethod process ((e exam))
-  (with-accessors ((l label))
-      e
-    (format out (display-string l) (value l))
-    (format out "~%")
-    (let ((exam-selectors (get-readers e)))
-      (loop for selector in (rest exam-selectors)
-         do (let ((exam-field (funcall selector e))) 
-              (if (eq selector 'curve)
-                  (when (eq (value (curve? e)) "Y")
-                    (process-field exam-field e))
-                  (process-field exam-field e)))))))
+(defmethod process ((obj grade-obj))
+  (let ((obj-selectors (get-readers obj)))
+	loop for selector in obj-selectors
+	do (let ((afield (funcall selector obj)))
+		 (process-field obj afield selector))))
 
-(defmethod process ((hw homework))
-  (let ((hw-selectors (get-readers hw)))
-    (loop for selector in (hw-selectors)
-         do (let ((hw-field (funcall selector hw)))
-              (process-field hw-field hw)))))
+(defmethod process-field ((e exam) (field-meta t) (f field))
+  (cond ((eq field-meta 'label)
+		 '(TODO)
+		((eq field-meta 'curve)
+		 '(TODO))
+		 (t
+		  (process-input-or-output-field f e)))))		 
+   
+	
+  ;(defmethod process ((e exam))
+;  (with-accessors ((l label))
+;      e
+;    (format out (display-string l) (value l))
+;    (format out "~%")
+;    (let ((exam-selectors (get-readers e)))
+;      (loop for selector in (rest exam-selectors)
+;         do (let ((exam-field (funcall selector e))) 
+;              (if (eq selector 'curve)
+;                  (when (eq (value (curve? e)) "Y")
+;                    (process-field exam-field e))
+;                  (process-field exam-field e)))))))
 
-(defun process-generic-fn (o process-fn)
-  (let ((obj-selectors (get-readers o)))
-    (loop for selector in (obj-selectors)
-         do (let ((f (funcall selector o)))
-              (funcall process-fn (list o f))))))
+;(defmethod process ((hw homework))
+;  (let ((hw-selectors (get-readers hw)))
+;    (loop for selector in (hw-selectors)
+;         do (let ((hw-field (funcall selector hw)))
+;              (process-field hw-field hw)))))
+
+;(defmethod process-homework-field ((hw homework) (selector t))
+;  (let ((hw-field (funcall selector hw)))
+	
+  
+  
+
+; TODO was in the middle of generifying process
+;(defun process-generic-fn (obj process-fn)
+;  (let ((obj-selectors (get-readers obj)))
+;    (loop for selector in (obj-selectors)
+;         do (let ((actual-field (funcall selector obj)))
+;              (funcall process-fn (list obj actual-field))))))
 
 
 (defun get-readers (obj)
@@ -53,7 +75,7 @@
     readers))
 
 ;;; field processing core ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defmethod process-field ((f field) (obj grade-object))
+(defmethod input-or-output-field ((f field) (obj grade-object))
   (if (user-input? f)
       (prompt-for-user-input f)
       (progn

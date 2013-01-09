@@ -7,6 +7,7 @@
 )
 
 (defgeneric process (grade-object)) 
+(defgeneric process-field (grade-object t field))
 
 (defclass exam (grade-object)
   (
