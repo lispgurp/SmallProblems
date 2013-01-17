@@ -19,16 +19,16 @@
     (loop for exam in exams
        do (process exam))))
 
-(defmethod process ((obj grade-obj))
+(defmethod process ((obj grade-object))
   (let ((obj-selectors (get-readers obj)))
 	loop for selector in obj-selectors
 	do (let ((afield (funcall selector obj)))
 		 (process-field obj afield selector))))
 
-(defmethod process-field ((e exam) (field-meta t) (f field))
-  (cond ((eq field-meta 'label)
+(defmethod process-field ((e exam) (field-slot-def t) (f field))
+  (cond ((eq field-slot-def 'label)
 		 '(TODO)
-		((eq field-meta 'curve)
+		((eq field-slot-def 'curve)
 		 '(TODO))
 		 (t
 		  (process-input-or-output-field f e)))))		 
