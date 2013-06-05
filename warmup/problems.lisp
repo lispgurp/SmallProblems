@@ -153,7 +153,7 @@
 ;   5. bounds checking on exponentiation (condition system)
 ;   6. overcorrection (e.g. make contigous string in place!)
 ; unsupported:
-;   1. different bases
+;   1. different bases 
 ;   2. floating point numbers
  
 ; basic algorithm: add each position individually, if number = 1234
@@ -167,9 +167,10 @@
           (loop for c across str
              for i from (1- (length str)) downto 0
              for n = (get-numeric-value c)
-             sum (compute-power n :to-the i :from-str str) into acc  
-             do (format t "i: ~A n: ~A acc: ~A~%" i n acc))
-             finally (return acc))
+             sum (compute-power n :to-the i :from-str str) into acc 
+             ;for acc = 0 
+             ;do (setf acc (+ acc (compute-power n :to-the i :from-str str)))
+             finally (return acc)))
     (non-numeric-error (e)
       (format t (message e) (make-non-numeric-error-message e)))))
 
@@ -210,10 +211,11 @@
 ;      (error 'non-numeric-error :bad-string in :bad-index at)
 ;      (+ with (* n (expt 10 at)))))
 
-(defn compute-power (n &key to-the from-str)
+(defun compute-power (n &key to-the from-str)
   (if (null n)
       (error 'non-numeric-error :bad-string from-str :bad-index to-the)
       (* n (expt 10 to-the))))
+       
 
 ; error cases
 (define-condition non-numeric-error (error)
