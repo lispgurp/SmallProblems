@@ -145,27 +145,43 @@
 ; precondition: input = a series of continous numeric characters where the left most character is the
 ; most significant digit and the rightmost character is the least significant digit.
 ; If this rule is violated the method will return nil. 
-; initially unsupported: 
-;   1. signed 
-;   2. overflow on final result
-;   3. unicode 
-;   4. additional bases (base 2, etc)
-;   5. bounds checking on exponentiation
-;   6. floating point numbers
-
+; supported: 
+;   1. non numeric characters (condition system)
+;   2. signed (algorithm) 
+;   3. overflow on final result (condition system)
+;   4. unicode (algorithm)
+;   5. bounds checking on exponentiation (condition system)
+;   6. overcorrection (e.g. make contigous string in place!)
+; unsupported:
+;   1. different bases
+;   2. floating point numbers
+ 
 ; basic algorithm: add each position individually, if number = 1234
 ;  1234 = length = 4
 ;  (1 * 10^3) + (2 * 10^2) + (3* 10^1) + (4*10^0)
 (defun atoi (str)
-  (if (and (stringp str)
-           (<= (length str) 0))
-      nil
-      (loop for c across str
-         for i from (1- (length str)) downto 0
-         for n = (get-numeric-value c)
-         for acc = 0 then (+ acc (* n (expt 10 i)))
-         do (format t "i: ~A n: ~A acc: ~A~%" i n acc))))
- 
+  (handler-case
+      (if (and (stringp str)
+               (<= (length str) 0))
+          nil
+          (loop for c across str
+             for i from (1- (length str)) downto 0
+             for n = (get-numeric-value c)
+             sum (compute-power n :to-the i :from-str str) into acc  
+             do (format t "i: ~A n: ~A acc: ~A~%" i n acc))
+             finally (return acc))
+    (non-numeric-error (e)
+      (format t (message e) (make-non-numeric-error-message e)))))
+
+
+;             do (progn
+;                  (setf acc (compute-number n :with acc :at i :in str))
+;                  (format t "i: ~A n: ~A acc: ~A~%" i n acc))
+
+    
+
+; helpers
+  
 (defvar *number-map* nil)
 
 (defun make-number-map ()
@@ -181,12 +197,32 @@
   (setf (gethash #\8 *number-map*) 8)
   (setf (gethash #\9 *number-map*) 9))
 
-; helpers
 (defun get-numeric-value (chr)
   (if (characterp chr)
       (progn
         (if (null *number-map*)
             (make-number-map))
-        (gethash chr *number-map*)
-      nil)))
+        (gethash chr *number-map*))
+      nil))
+
+;(defun compute-number (n &key with at in)
+;  (if (null n)
+;      (error 'non-numeric-error :bad-string in :bad-index at)
+;      (+ with (* n (expt 10 at)))))
+
+(defn compute-power (n &key to-the from-str)
+  (if (null n)
+      (error 'non-numeric-error :bad-string from-str :bad-index to-the)
+      (* n (expt 10 to-the))))
+
+; error cases
+(define-condition non-numeric-error (error)
+  ((message :initform "atoi error, non numeric character encountered in ~A at position ~A"
+            :reader message)
+   (bad-string :initarg :bad-string :reader bad-string)
+   (bad-index :initarg :bad-index :reader bad-index)))
+
+(defun make-non-numeric-error-message (e)
+  (format t (message e) (bad-string e) (bad-index e)))
+   
 
