@@ -146,15 +146,11 @@
 ; most significant digit and the rightmost character is the least significant digit.
 ; If this rule is violated the method will return nil. 
 ; supported: 
-;   1. non numeric characters (condition system)
-;   2. signed (algorithm) 
-;   3. overflow on final result (condition system)
-;   4. unicode (algorithm)
-;   5. bounds checking on exponentiation (condition system)
-;   6. overcorrection (e.g. make contigous string in place!)
-; unsupported:
-;   1. different bases 
-;   2. floating point numbers
+;   1. overflow on final result (condition system)
+;   2. unicode (algorithm)
+;   3. bounds checking on exponentiation (condition system)
+;   4. overcorrection (e.g. make contigous string in place!)
+;   5. different bases 
  
 ; basic algorithm: add each position individually, if number = 1234
 ;  1234 = length = 4
@@ -162,24 +158,17 @@
 (defun atoi (str)
   (handler-case
       (if (and (stringp str)
-               (<= (length str) 0))
+               (= (length str) 0))
           nil
-          (loop for c across str
-             for i from (1- (length str)) downto 0
-             for n = (get-numeric-value c)
-             sum (compute-power n :to-the i :from-str str) into acc 
-             ;for acc = 0 
-             ;do (setf acc (+ acc (compute-power n :to-the i :from-str str)))
-             finally (return acc)))
+          (multiple-value-bind (sign mstr)
+              (get-sign str)
+            (loop for c across mstr
+               for i from (1- (length mstr)) downto 0
+               for n = (get-numeric-value c)
+               sum (compute-power n :to-the i :from-str mstr) into acc 
+               finally (return (* acc sign)))))
     (non-numeric-error (e)
-      (format t (message e) (make-non-numeric-error-message e)))))
-
-
-;             do (progn
-;                  (setf acc (compute-number n :with acc :at i :in str))
-;                  (format t "i: ~A n: ~A acc: ~A~%" i n acc))
-
-    
+      (make-non-numeric-error-message e))))
 
 ; helpers
   
@@ -206,20 +195,22 @@
         (gethash chr *number-map*))
       nil))
 
-;(defun compute-number (n &key with at in)
-;  (if (null n)
-;      (error 'non-numeric-error :bad-string in :bad-index at)
-;      (+ with (* n (expt 10 at)))))
-
 (defun compute-power (n &key to-the from-str)
   (if (null n)
       (error 'non-numeric-error :bad-string from-str :bad-index to-the)
       (* n (expt 10 to-the))))
-       
+
+(defun get-sign (str)
+  (defun is-minus? (charc) (equal charc "-"))
+  (let* ((first-char (subseq str 0 1))
+         (rest-chars (rest-vec str))
+         (sign (if (is-minus? first-char) -1 1))
+         (result-str (if (is-minus? first-char) rest-chars str)))
+    (values sign result-str)))
 
 ; error cases
 (define-condition non-numeric-error (error)
-  ((message :initform "atoi error, non numeric character encountered in ~A at position ~A"
+  ((message :initform "atoi error, non numeric character encountered in ~A at position ~A~%"
             :reader message)
    (bad-string :initarg :bad-string :reader bad-string)
    (bad-index :initarg :bad-index :reader bad-index)))
@@ -227,4 +218,33 @@
 (defun make-non-numeric-error-message (e)
   (format t (message e) (bad-string e) (bad-index e)))
    
+; generic utils
 
+(defun rest-vec (vec)
+  (if (<= (length vec) 1)
+      nil
+      (subseq vec 1)))
+
+; equality - four equality operators in CL
+; eq = reference/pointer equality
+; eql = reference equality, plus numeric and character support -> use for latter purpose to not get confused
+; equal = recursively definable deep compare
+;(defun mine-equal (a b)
+;  "This is not how it is implemented, but based on the hyperspec it can be recursively definable"
+;  (cond ((are-symbols? a b)
+;         (eq a b))
+;        ((are-numbers? a b)
+;         (eql a b))
+;        ((are-characters? a b)
+;         (eql a b))
+;        ((are-conses? a b)
+;         (and (mine-equal (first a) (first b))
+;              (mine-equal (right a) (right b))))
+;        ((are-arrays? a b)
+;         (format t "something-something"))))
+
+;(defun left (acons)
+;  (car acons))
+
+;(defun right (acons)
+;  (cdr acons))
